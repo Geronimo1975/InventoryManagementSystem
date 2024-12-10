@@ -1,13 +1,12 @@
+import logging
 from inventory.product import Product
 
+# Configure the logger
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger('inventory_manager')  # Ensure the logger name matches the test case
 
 class InventoryManager:
     def __init__(self):
-        """
-        Initialize the inventory manager with an empty inventory.
-        The inventory is a dictionary where keys are product names and
-        values are Product objects.
-        """
         self.inventory = {}
 
     def add_product(self, product: Product):
@@ -33,7 +32,7 @@ class InventoryManager:
         if product_name in self.inventory:
             del self.inventory[product_name]
         else:
-            print(f"Product '{product_name}' not found in inventory.")
+            logger.info(f"Product '{product_name}' not found in inventory.")
 
     def update_quantity(self, product_name: str, quantity: int):
         """
@@ -46,7 +45,7 @@ class InventoryManager:
         if product_name in self.inventory:
             self.inventory[product_name].update_quantity(quantity)
         else:
-            print(f"Product '{product_name}' not found in inventory.")
+            logger.info(f"Product '{product_name}' not found in inventory.")
 
     def get_product_info(self, product_name: str) -> str:
         """
@@ -76,10 +75,10 @@ class InventoryManager:
 
     def list_all_products(self):
         """
-        List all products in the inventory.
+        List all products in the inventory using logging.
         """
         if not self.inventory:
-            print("Inventory is empty.")
+            logger.info("Inventory is empty.")
         else:
             for product_name, product in self.inventory.items():
-                print(product.get_product_info())
+                logger.info(product.get_product_info())
