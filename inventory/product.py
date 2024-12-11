@@ -83,24 +83,11 @@ class Product:
         return f"{self.name} - ${self.price:.2f} - Qty: {self.quantity}"
 
     def __eq__(self, other):
-        """
-        Compare two products for equality based on their name.
 
-        Args:
-            other (Product): The other product to compare.
-
-        Returns:
-            bool: True if the names are equal (case insensitive), False otherwise.
-        """
         if isinstance(other, Product):
             return self.name.lower() == other.name.lower()
         return False
 
     def __hash__(self):
-        """
-        Generate a hash for the product based on its name, making it usable in sets or as dictionary keys.
 
-        Returns:
-            int: The hash value.
-        """
         return hash(self.name.lower())
