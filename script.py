@@ -1,41 +1,81 @@
 import os
 
 # Define the base directory for the project
-base_path = "/home/dci-student/Projects/Study-DCI/Study/Git_Tasks/group-project-Geronimo1975"
+base_path = "/home/dci-student/Projects/InventoryManagemntSystem"
 
-# Define the structure of the project
+# Define the updated structure of the project
 project_structure = {
     "InventoryManagementSystem": {
-        "inventory": [
-            "__init__.py",
-            "product.py",
-            "inventory_manager.py"
-        ],
-        "tests": [
-            "__init__.py",
-            "test_inventory_manager.py"
-        ]
+        "__init__.py": None,
+        "asgi.py": None,
+        "settings.py": None,
+        "urls.py": None,
+        "wsgi.py": None,
     },
-    "main.py": None,
-    "requirements.txt": None
+    "inventory": {
+        "__init__.py": None,
+        "admin.py": None,
+        "apps.py": None,
+        "forms.py": None,
+        "models.py": None,
+        "tests.py": None,
+        "urls.py": None,
+        "views.py": None,
+        "migrations": {
+            "__init__.py": None,
+        },
+    },
+    "templates": {
+        "inventory": {
+            "home.html": None,
+            "product_list.html": None,
+            "product_detail.html": None,
+            "cart.html": None,
+            "checkout.html": None,
+        },
+    },
+    "static": {
+        "css": {},
+        "js": {},
+    },
+    "tests": {
+        "__init__.py": None,
+        "test_inventory_manager.py": None,
+    },
+    "db.sqlite3": None,
+    "LICENSE": None,
+    "README.md": None,
+    "requirements.txt": None,
+    "manage.py": None,
 }
 
+def create_project_structure(base_path, structure):
+    for name, contents in structure.items():
+        current_path = os.path.join(base_path, name)
+        if contents is None:
+            # Create a file
+            if not os.path.exists(current_path):
+                open(current_path, 'w').close()
+                print(f"File created: {current_path}")
+            else:
+                print(f"File already exists: {current_path}")
+        elif isinstance(contents, dict):
+            # Create a folder
+            os.makedirs(current_path, exist_ok=True)
+            print(f"Directory created: {current_path}")
+            create_project_structure(current_path, contents)
+
 # Create the project structure
-for folder, contents in project_structure["InventoryManagementSystem"].items():
-    folder_path = os.path.join(base_path, "InventoryManagementSystem", folder)
-    os.makedirs(folder_path, exist_ok=True)
-    if contents:
-        for file in contents:
-            open(os.path.join(folder_path, file), 'w').close()
+create_project_structure(base_path, project_structure)
 
-# Create the main.py file at the root level
-open(os.path.join(base_path, "InventoryManagementSystem", "main.py"), 'w').close()
-
-# Create requirements.txt
+# Add example requirements
 requirements = """
-unittest
+Django==4.2.6
+stripe==5.1.0
+django-crispy-forms==1.14.0
+Pillow==9.3.0
 """
-with open(os.path.join(base_path, "InventoryManagementSystem", "requirements.txt"), 'w') as req_file:
+with open(os.path.join(base_path, "requirements.txt"), 'w') as req_file:
     req_file.write(requirements)
 
 print("Project structure created successfully!")
