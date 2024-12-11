@@ -1,0 +1,17 @@
+[
+    {
+        "name": "1",
+        "price": 49.99,
+        "quantity": 10
+    },
+    {
+        "name": "Dining Table",
+        "price": 149.99,
+        "quantity": 5
+    },
+    {
+        "name": "Sofa",
+        "price": 499.99,
+        "quantity": 3
+    }
+]
