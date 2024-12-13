@@ -1,7 +1,7 @@
 import os
 
 # Define the base directory for the project
-base_path = "/home/dci-student/Projects/Study-DCI/Study/Git_Tasks/group-project-Geronimo1975"
+base_path = "/home/student/projects/InventoryManagementSystem"
 
 # Define the structure of the project
 project_structure = {
