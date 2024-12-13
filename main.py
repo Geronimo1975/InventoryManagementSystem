@@ -1,64 +1,53 @@
+from inventory.product import Product
 from inventory.inventory_manager import InventoryManager
-
-# Initialize InventoryManager
-inventory_manager = InventoryManager()
-
-
-def register_user():
-    """Register a new user."""
-    username = input("Enter username: ")
-    password = input("Enter password: ")
-    print(f"User '{username}' registered successfully!")
-
-
-def login_user():
-    """Login an existing user."""
-    username = input("Enter username: ")
-    password = input("Enter password: ")
-    print(f"Welcome back, {username}!")
-
-
-def show_inventory():
-    """Display the list of available products."""
-    print("\nAvailable products:")
-    inventory_manager.list_all_products()
-
-
-def add_product_to_cart():
-    """Add a product to the shopping cart."""
-    product_name = input("Enter the product name to add to cart: ")
-    if product_name in inventory_manager.inventory:
-        quantity = int(input(f"Enter the quantity of {product_name}: "))
-        inventory_manager.update_quantity(product_name, -quantity)
-        print(f"Added {quantity} of {product_name} to your cart.")
-    else:
-        print(f"Product '{product_name}' not found.")
 
 
 def main():
-    while True:
-        print("\n1. Register")
-        print("2. Login")
-        print("3. View Inventory")
-        print("4. Add Product to Cart")
-        print("5. Exit")
+    """
+    Main function to demonstrate the Inventory Management System.
+    """
+    # Create an instance of InventoryManager
+    inventory_manager = InventoryManager()
 
-        choice = int(input("\nEnter your choice: "))
+    # Add some products
+    product1 = Product(name="Laptop", price=1500.00, quantity=10)
+    product2 = Product(name="Mouse", price=25.00, quantity=50)
+    product3 = Product(name="Keyboard", price=45.00, quantity=30)
 
-        if choice == 1:
-            register_user()
-        elif choice == 2:
-            login_user()
-        elif choice == 3:
-            show_inventory()
-        elif choice == 4:
-            add_product_to_cart()
-        elif choice == 5:
-            print("Exiting the application...")
-            break
-        else:
-            print("Invalid choice. Please try again.")
+    inventory_manager.add_product(product1)
+    inventory_manager.add_product(product2)
+    inventory_manager.add_product(product3)
 
+    # Display all products
+    print("Current Inventory:")
+    inventory_manager.list_all_products()
+    print()
+
+    # Update product quantity
+    print("Updating product quantity:")
+    inventory_manager.update_quantity("Laptop", -2)  # Sell 2 laptops
+    inventory_manager.update_quantity("Mouse", 10)   # Add 10 mice
+    print()
+
+    # Get product info
+    print("Product Info for 'Laptop':")
+    print(inventory_manager.get_product_info("Laptop"))
+    print()
+
+    # Get total inventory value
+    print("Total Inventory Value:")
+    total_value = inventory_manager.get_total_inventory_value()
+    print(f"${total_value:.2f}")
+    print()
+
+    # Remove a product
+    print("Removing 'Keyboard' from inventory.")
+    inventory_manager.remove_product("Keyboard")
+    print()
+
+    # Display updated inventory
+    print("Updated Inventory:")
+    inventory_manager.list_all_products()
 
 if __name__ == "__main__":
     main()
