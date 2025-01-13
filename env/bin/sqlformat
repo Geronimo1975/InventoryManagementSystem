@@ -1,4 +1,4 @@
-#!/home/dci-student/Projects/InventoryManagemntSystem/env/bin/python3.12
+#!/home/dci-student/Projects/InventoryManagementSystem/env/bin/python3
 # -*- coding: utf-8 -*-
 import re
 import sys
