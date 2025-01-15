@@ -8,9 +8,7 @@ project_structure = {
     "InventoryManagementSystem": {
         "__init__.py": None,
         "asgi.py": None,
-        "settings.py": None,
-        "urls.py": None,
-        "wsgi.py": None,
+        "settings.py": None
     },
     "inventory": {
         "__init__.py": None,
@@ -19,30 +17,12 @@ project_structure = {
         "forms.py": None,
         "models.py": None,
         "tests.py": None,
-        "urls.py": None,
-        "views.py": None,
-        "migrations": {
-            "__init__.py": None,
-        },
-    },
-    "templates": {
-        "inventory": {
-            "home.html": None,
-            "product_list.html": None,
-            "product_detail.html": None,
-            "cart.html": None,
-            "checkout.html": None,
-        },
-    },
-    "static": {
-        "css": {},
-        "js": {},
+
     },
     "tests": {
         "__init__.py": None,
         "test_inventory_manager.py": None,
     },
-    "db.sqlite3": None,
     "LICENSE": None,
     "README.md": None,
     "requirements.txt": None,
@@ -70,9 +50,7 @@ create_project_structure(base_path, project_structure)
 
 # Add example requirements
 requirements = """
-Django==4.2.6
 stripe==5.1.0
-django-crispy-forms==1.14.0
 Pillow==9.3.0
 """
 with open(os.path.join(base_path, "requirements.txt"), 'w') as req_file:
