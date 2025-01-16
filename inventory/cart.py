@@ -1,4 +1,5 @@
 from inventory.product import Product
+from inventory.inventory_manager import InventoryManager
 
 class Cart:
     def __init__(self):
@@ -14,6 +15,16 @@ class Cart:
             }
 
     def remove_from_cart(self, product_name: str):
+        try:
+            if product_name in self.cart_items:
+                del self.cart_items[product_name]
+                print(f"Product '{product_name}' removed from cart.")
+            else:
+                raise KeyError ("Product not found in cart.")
+        except KeyError as e:
+            print(f"Error: {e}")
+        
+        
         if product_name in self.cart_items:
             del self.cart_items[product_name]
 
