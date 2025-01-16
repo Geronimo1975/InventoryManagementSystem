@@ -2,7 +2,7 @@
 Streamlit interface for the Inventory Management System.
 """
 import streamlit as st
-from inventory import InventoryManager
+from inventory.inventory_manager import InventoryManager
 from inventory.user import UserRole
 from inventory.user_manager import UserManager
 from inventory.export_manager import InventoryExporter
