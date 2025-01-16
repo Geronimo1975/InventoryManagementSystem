@@ -1,8 +1,9 @@
 class Product:
-    def __init__(self, name, price, quantity):
+    def __init__(self, name, price, quantity, image_url=""):
         self.name = name
         self.price = price
         self.quantity = quantity
+        self.image_url = image_url
 
     def update_quantity(self, new_quantity):
         self.quantity = new_quantity

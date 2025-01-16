@@ -25,8 +25,8 @@ class Cart:
             print(f"Error: {e}")
         
         
-        if product_name in self.cart_items:
-            del self.cart_items[product_name]
+        # if product_name in self.cart_items:
+        #     del self.cart_items[product_name]
 
     def view_cart(self):
         # Return a list of item descriptions for readability

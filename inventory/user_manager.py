@@ -2,24 +2,24 @@ from inventory.user import User, UserRole
 
 class UserManager:
     def __init__(self):
-        """Inițializează managerul de utilizatori cu un utilizator admin implicit."""
+        """Initializes the user manager with a default admin user."""
         self.users = {
             "admin": User("admin", "admin123", UserRole.ADMIN)
         }
 
     def register_user(self, username: str, password: str, role: UserRole):
-        """Înregistrează un nou utilizator dacă numele nu este deja folosit."""
+        """Registers a new user if the username is not already taken."""
         if username in self.users:
-            raise ValueError("Acest nume de utilizator este deja folosit.")
+            raise ValueError(f"Username '{username}' is already taken.")
         self.users[username] = User(username, password, role)
 
     def authenticate_user(self, username: str, password: str):
-        """Autentifică utilizatorul și returnează obiectul User dacă este valid."""
+        """Authenticates the user and returns the User object if valid."""
         user = self.users.get(username)
         if user and user.check_password(password):
             return user
         return None
 
     def get_all_users(self):
-        """Returnează lista utilizatorilor existenți."""
-        return list(self.users.values())
+        """Returns the list of existing users as a dictionary."""
+        return {username: user.__dict__ for username, user in self.users.items()}
