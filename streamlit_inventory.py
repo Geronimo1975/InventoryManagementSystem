@@ -18,7 +18,10 @@ from inventory.user import UserRole
 
 
 def scrape_product_details(url):
-    """Scrapes product details using Selenium to handle dynamic content."""
+    """Scrapes product details from an Amazon page using Selenium."""
+    
+    url = expand_short_url(url)  # Expand URL before scraping
+
     options = Options()
     options.add_argument("--headless")
     options.add_argument("--disable-gpu")
@@ -31,20 +34,17 @@ def scrape_product_details(url):
     try:
         driver.get(url)
         soup = BeautifulSoup(driver.page_source, 'html.parser')
+
+        # Extract product details
+        product_name = soup.find("span", {"id": "productTitle"})
+        product_price = soup.find("span", {"class": "a-offscreen"})
+
+        name = product_name.text.strip() if product_name else "Unknown Product"
+        price = product_price.text.strip() if product_price else "0,00 €"
         
-        product_name_tag = soup.find("span", {"id": "productTitle"})
-        product_price_tag = soup.find("span", {"class": "a-offscreen"})
-        product_name = product_name_tag.text.strip() if product_name_tag else "Unknown Product"
-        product_price = 0.0
-        if product_price_tag:
-            try:
-                product_price = float(product_price_tag.text.replace("€", "").replace(",", ".").strip())
-            except ValueError:
-                st.warning("Could not parse price correctly.")
-        
-        return product_name, product_price
+        return name, price
     except Exception as e:
-        st.error(f"Scraping failed: {e}")
+        print(f"Scraping error: {e}")
         return None, None
     finally:
         driver.quit()
@@ -61,7 +61,13 @@ def load_inventory(inventory_manager):
                 inventory_manager.add_product(Product(p.get("name", "Unknown"), p.get("price", 0.0), int(p.get("quantity", 1))))
 
 def format_price(price):
-    return f"{price:,.2f} €".replace(",", "X").replace(".", ",").replace("X", ".")
+    """Format price as European currency (1.000,00 €)"""
+    try:
+        price = float(str(price).replace("€", "").replace(",", ".").strip())  # Convert to float safely
+        return f"{price:,.2f} €".replace(",", "X").replace(".", ",").replace("X", ".")
+    except ValueError:
+        return "0,00 €"  # Fallback for invalid price values
+
 
 def main():
     st.title("📦 Inventory Management System")
@@ -118,10 +124,10 @@ def main():
                             st.error("Failed to fetch product details. Check the affiliate link.")
         
         st.subheader("Inventory List")
-        product_data = [{"Name": p.name, "Price (€)": format_price(p.price), "Quantity": int(p.quantity)} for p in inventory_manager.products]
+        product_data = [{"Name": p.name, "Price (€)": format_price(p.price), "Quantity": format(p.quantity)} for p in inventory_manager.products]
         if product_data:
             df = pd.DataFrame(product_data)
-            df.loc["Total", :] = ["Total Inventory Value", format_price(df["Price (€)"].str.replace(" €", "").str.replace(".", "").str.replace(",", ".").astype(float).sum()), df["Quantity"].sum()]
+            #df.loc["Total", :] = ["Total Inventory Value", format_price(df["Price (€)"].str.replace(" €", "").str.replace(".", "").str.replace(",", ".").astype(float).sum()), df["Quantity"].sum()]
             st.table(df)
     
     with tab2:
@@ -150,6 +156,15 @@ def main():
     with tab5:
         st.header("📜 Order History")
         st.write("Order history functionality to be implemented")
+
+def expand_short_url(short_url):
+    try:
+        response = requests.get(short_url, allow_redirects=True)
+        return response.url  # Returns the final expanded URL
+    except requests.RequestException as e:
+        print(f"Error expanding URL: {e}")
+        return short_url  # Fallback to original
+
 
 if __name__ == "__main__":
     main()

@@ -1,6 +1,7 @@
 import pandas as pd
 from fpdf import FPDF
 from io import BytesIO
+from graphviz import Digraph
 
 class InventoryExporter:
     @staticmethod
@@ -39,3 +40,21 @@ class InventoryExporter:
         pdf.output(buffer)
         buffer.seek(0)
         return buffer
+
+        class ProjectDiagram:
+            @staticmethod
+            def draw_diagram():
+                dot = Digraph(comment='Inventory Management System')
+                
+                dot.node('A', 'InventoryExporter')
+                dot.node('B', 'to_excel')
+                dot.node('C', 'to_pdf')
+                
+                dot.edges(['AB', 'AC'])
+                
+                return dot
+
+        # Example usage:
+        # diagram = ProjectDiagram.draw_diagram()
+        # diagram.render('/home/dci-student/Projects/InventoryManagementSystem/inventory/project_diagram', format='png')
+    

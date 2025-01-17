@@ -10,4 +10,4 @@ class Product:
 
     def get_product_info(self):
         # Format price with two decimals
-        return f"Product: {self.name}, Price: {self.price:.2f}€, Quantity: {self.quantity}"
+        return f"Product: {self.name}, Price: {self.price:.2f}€, Quantity: {self.quantity:.2f}"
